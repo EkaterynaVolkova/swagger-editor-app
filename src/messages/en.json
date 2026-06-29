@@ -1,5 +1,40 @@
 {
   "common": {
     "title": "Swagger Editor App"
+  },
+  "FormsLayout": {
+    "sign_in": {
+      "form": "Sign up",
+      "title": "Welcome back",
+      "subTitle": "Sign in to your account",
+      "account": "Don’t have an account?"
+    },
+    "sign_up": {
+      "form": "Sign in",
+      "title": "Get started",
+      "subTitle": "Create a new account",
+      "account": "Already have an account?"
+    }
+  },
+  "Forms": {
+    "username": "Username",
+    "username_placeholder": "Type username",
+    "email": "Email",
+    "password": "Password",
+    "confirm_password": "Confirm password",
+    "sign_up": "Sign up",
+    "sign_in": "Sign in"
+  },
+  "Validation": {
+    "required_email": "Email is required",
+    "required_username": "Username is required",
+    "invalid_email": "Must be a valid email",
+    "required_password": "Password is required",
+    "min_length": "Password must be at least {length} characters",
+    "max_length": "The username must not be longer than {length} characters",
+    "one_number": "Password must contain at least one number",
+    "one_letter": "Password must contain at least one letter",
+    "one_special": "Password must contain at least one special character",
+    "not_matched": "The passwords don't match"
   }
 }
