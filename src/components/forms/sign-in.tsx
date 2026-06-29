@@ -2,11 +2,13 @@
 
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
+import { useRouter } from '@/i18n/navigation';
 
 import { createTranslatedResolver } from '@/helpers/translate-issues';
 import { LoginFormData, loginSchema } from '@/helpers/validation-schema';
 
 export function SignIn() {
+  const router = useRouter();
   const tValidation = useTranslations('Validation');
   const tForm = useTranslations('Forms');
 
@@ -19,8 +21,9 @@ export function SignIn() {
     defaultValues: { email: '', password: '' },
   });
 
-  const onSubmit = (data: LoginFormData) => {
+  const onSubmit = async (data: LoginFormData) => {
     console.log('Data', data);
+    router.replace('/');
   };
 
   return (
@@ -33,6 +36,7 @@ export function SignIn() {
           {...register('email')}
           id="email"
           type="text"
+          aria-label="email"
           className={`input w-auto ${errors.email ? 'input-error' : ''}`}
           placeholder="you@example.com"
         />
@@ -45,12 +49,13 @@ export function SignIn() {
           {...register('password')}
           id="password"
           type="text"
+          aria-label="password"
           className={`input w-auto ${errors.password ? 'input-error' : ''}`}
           placeholder="********"
         />
         <p className="label text-error h-4">{errors.password?.message}</p>
       </fieldset>
-      <button className="btn btn-success w-auto">{tForm('sign_up')}</button>
+      <button className="btn btn-success w-auto">{tForm('sign_in')}</button>
     </form>
   );
 }

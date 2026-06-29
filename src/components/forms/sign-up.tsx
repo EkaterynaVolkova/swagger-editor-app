@@ -2,11 +2,13 @@
 
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
+import { useRouter } from '@/i18n/navigation';
 
 import { createTranslatedResolver } from '@/helpers/translate-issues';
 import { RegisterFormData, registerSchema } from '@/helpers/validation-schema';
 
 export function SignUp() {
+  const router = useRouter();
   const tValidation = useTranslations('Validation');
   const tForm = useTranslations('Forms');
 
@@ -21,6 +23,7 @@ export function SignUp() {
 
   const onSubmit = (data: RegisterFormData) => {
     console.log('Data', data);
+    router.replace('/');
   };
 
   return (

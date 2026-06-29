@@ -1,14 +1,9 @@
 import * as v from 'valibot';
 
 export const loginSchema = v.object({
-  email: v.pipe(
-    v.string('required_email'),
-    v.trim(),
-    v.nonEmpty('required_email'),
-    v.email('invalid_email')
-  ),
+  email: v.pipe(v.string(), v.trim(), v.nonEmpty('required_email'), v.email('invalid_email')),
   password: v.pipe(
-    v.string('required_password'),
+    v.string(),
     v.minLength(8, 'min_length:8'),
     v.regex(/\p{L}/u, 'one_letter'),
     v.regex(/\p{N}/u, 'one_number'),
