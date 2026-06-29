@@ -1,5 +1,16 @@
 {
   "common": {
     "title": "Swagger Editor App"
+  },
+  "header": {
+    "about": "О проекте",
+    "history": "История",
+    "signIn": "Войти",
+    "signUp": "Регистрация",
+    "signOut": "Выйти"
+  },
+  "footer": {
+    "allRightsReserved": "Все права защищены.",
+    "aboutLink": "О проекте"
   }
 }
