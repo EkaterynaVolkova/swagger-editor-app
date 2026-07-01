@@ -10,7 +10,7 @@ export async function Header() {
   const t = await getTranslations('header');
 
   return (
-    <header className="bg-swagger-dark border-swagger-border sticky top-0 z-50 w-full border-b text-white shadow-md">
+    <header className="bg-swagger-dark border-swagger-border fixed top-0 z-50 w-full border-b text-white shadow-md">
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4">
         <div className="flex items-center">
           <Link

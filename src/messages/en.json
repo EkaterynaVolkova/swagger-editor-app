@@ -12,5 +12,10 @@
   "footer": {
     "allRightsReserved": "All rights reserved.",
     "aboutLink": "About Us"
+  },
+  "swaggerPage": {
+    "editorTitle": "Editor",
+    "viewerTitle": "Swagger UI Preview",
+    "saveButton": "Save Schema"
   }
 }
