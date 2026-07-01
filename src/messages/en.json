@@ -36,5 +36,16 @@
     "one_letter": "Password must contain at least one letter",
     "one_special": "Password must contain at least one special character",
     "not_matched": "The passwords don't match"
+  },
+  "header": {
+    "about": "About",
+    "history": "History",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "signOut": "Sign Out"
+  },
+  "footer": {
+    "allRightsReserved": "All rights reserved.",
+    "aboutLink": "About Us"
   }
 }

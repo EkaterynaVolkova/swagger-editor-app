@@ -15,7 +15,7 @@
 
 - [ ] **No** `any` or `@ts-ignore` used anywhere in the code.
 - [ ] **No** leftover `console.log` statements remaining.
-- [ ] Ran `npm run lint` and `npm run format` — zero errors or warnings in the console.
+- [ ] Run `npm run lint` and `npm run format` — zero errors or warnings in the console.
 - [ ] Code test coverage has not dropped 80%
 - [ ] Default framework favicon is not used or accidentally re-introduced.
 

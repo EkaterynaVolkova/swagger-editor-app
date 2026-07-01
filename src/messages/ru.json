@@ -2,6 +2,7 @@
   "common": {
     "title": "Swagger Editor App"
   },
+
   "FormsLayout": {
     "sign_in": {
       "form": "Войти",
@@ -36,5 +37,16 @@
     "one_letter": "Пароль должен содержать как минимум одну букву",
     "one_special": "Пароль должен содержать как минимум один специальный символ",
     "not_matched": "Пароли не совпадают"
+  },
+  "header": {
+    "about": "О проекте",
+    "history": "История",
+    "signIn": "Войти",
+    "signUp": "Регистрация",
+    "signOut": "Выйти"
+  },
+  "footer": {
+    "allRightsReserved": "Все права защищены.",
+    "aboutLink": "О проекте"
   }
 }
