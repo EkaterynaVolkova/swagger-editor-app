@@ -4,10 +4,12 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { SignUp } from './sign-up';
 
 const mockPush = vi.fn();
+const mockRefresh = vi.fn();
 
 vi.mock('@/i18n/navigation', () => ({
   useRouter: () => ({
     replace: mockPush,
+    refresh: mockRefresh,
   }),
 }));
 
@@ -53,6 +55,7 @@ describe('SignUp Component ', () => {
         body: JSON.stringify({ idToken: 'fake-jwt-token' }),
       });
 
+      expect(mockRefresh).toHaveBeenCalledTimes(1);
       expect(mockPush).toHaveBeenCalledWith('/');
     });
   });

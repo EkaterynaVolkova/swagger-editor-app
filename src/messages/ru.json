@@ -2,18 +2,17 @@
   "common": {
     "title": "Swagger Editor App"
   },
-
   "FormsLayout": {
-    "sign_in": {
-      "form": "Войти",
+    "SignIn": {
+      "form": "Зарегистрироваться",
       "title": "С возвращением!",
-      "subTitle": "Войдите в свой аккаунт",
+      "sub-title": "Войдите в свой аккаунт",
       "account": "Нет аккаунта? "
     },
-    "sign_up": {
-      "form": "Зарегистрироваться",
+    "SignUp": {
+      "form": "Войти",
       "title": "Начнем!",
-      "subTitle": "Создайте новый аккаунт",
+      "sub-title": "Создайте новый аккаунт",
       "account": "Уже есть аккаунт? "
     }
   },

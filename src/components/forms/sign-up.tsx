@@ -32,7 +32,7 @@ export function SignUp() {
       const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
       const token = await userCredential.user.getIdToken();
       await setSessionCookie(token);
-
+      router.refresh();
       router.replace('/');
     } catch (error) {
       if (error instanceof FirebaseError) {

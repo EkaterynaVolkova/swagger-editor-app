@@ -4,10 +4,12 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { SignIn } from './sign-in';
 
 const mockPush = vi.fn();
+const mockRefresh = vi.fn();
 
 vi.mock('@/i18n/navigation', () => ({
   useRouter: () => ({
     replace: mockPush,
+    refresh: mockRefresh,
   }),
 }));
 
@@ -51,6 +53,7 @@ describe('SignIn Component ', () => {
         body: JSON.stringify({ idToken: 'fake-jwt-token' }),
       });
 
+      expect(mockRefresh).toHaveBeenCalledTimes(1);
       expect(mockPush).toHaveBeenCalledWith('/');
     });
   });
