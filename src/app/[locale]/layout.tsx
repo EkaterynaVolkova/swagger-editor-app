@@ -35,7 +35,7 @@ export default async function LocaleLayout({ children, params }: Props) {
       <body>
         <NextIntlClientProvider messages={messages}>
           <Header />
-          {children}
+          <main className="alig flex flex-col items-center">{children}</main>
           <Footer />
         </NextIntlClientProvider>
       </body>
