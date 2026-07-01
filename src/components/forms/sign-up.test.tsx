@@ -19,13 +19,11 @@ describe('SignIn Component ', () => {
   it('should successfully submit the form with valid data', async () => {
     const { user } = render(<SignUp />);
 
-    const usernameInput = screen.getByRole('textbox', { name: /username/i });
     const emailInput = screen.getByRole('textbox', { name: /email/i });
     const passwordInput = screen.getByRole('textbox', { name: 'Password' });
     const confirmPasswordInput = screen.getByRole('textbox', { name: 'Confirm password' });
     const submitButton = screen.getByRole('button', { name: /sign up/i });
 
-    await user.type(usernameInput, 'Anon');
     await user.type(emailInput, 'test@example.com');
     await user.type(passwordInput, 'password123!');
     await user.type(confirmPasswordInput, 'password123!');
@@ -44,7 +42,6 @@ describe('SignIn Component ', () => {
     await user.click(submitButton);
 
     expect(screen.getByRole('textbox', { name: /email/i })).toHaveClass('input-error');
-    expect(screen.getByRole('textbox', { name: /username/i })).toHaveClass('input-error');
     expect(screen.getByRole('textbox', { name: 'Password' })).toHaveClass('input-error');
 
     expect(screen.getByText('Email is required')).toBeInTheDocument();
@@ -62,19 +59,6 @@ describe('SignIn Component ', () => {
     await user.click(submitButton);
 
     const emailError = await screen.findByText('Must be a valid email');
-    expect(emailError).toBeInTheDocument();
-  });
-
-  it('should show an error about long username', async () => {
-    const { user } = render(<SignUp />);
-
-    const emailInput = screen.getByRole('textbox', { name: /username/i });
-    const submitButton = screen.getByRole('button', { name: /sign up/i });
-
-    await user.type(emailInput, 'invalid-username-format');
-    await user.click(submitButton);
-
-    const emailError = await screen.findByText('The username must not be longer than 8 characters');
     expect(emailError).toBeInTheDocument();
   });
 
@@ -108,13 +92,11 @@ describe('SignIn Component ', () => {
   it("should display error if passwords doen't match", async () => {
     const { user } = render(<SignUp />);
 
-    const usernameInput = screen.getByRole('textbox', { name: /username/i });
     const emailInput = screen.getByRole('textbox', { name: /email/i });
     const passwordInput = screen.getByRole('textbox', { name: 'Password' });
     const confirmPasswordInput = screen.getByRole('textbox', { name: 'Confirm password' });
     const submitButton = screen.getByRole('button', { name: /sign up/i });
 
-    await user.type(usernameInput, 'Anon');
     await user.type(emailInput, 'test@example.com');
     await user.type(passwordInput, 'password123!');
     await user.type(confirmPasswordInput, 'password123');

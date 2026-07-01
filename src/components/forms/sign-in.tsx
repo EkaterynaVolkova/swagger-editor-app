@@ -2,10 +2,15 @@
 
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
-import { useRouter } from '@/i18n/navigation';
+import { FirebaseError } from 'firebase/app';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { valibotResolver } from '@hookform/resolvers/valibot';
 
-import { createTranslatedResolver } from '@/helpers/translate-issues';
+import { auth } from '@/lib/firebase/client';
+import { useRouter } from '@/i18n/navigation';
 import { LoginFormData, loginSchema } from '@/helpers/validation-schema';
+import { handleFirebaseError } from '@/helpers/handleFirebaseError';
+import { setSessionCookie } from '@/lib/auth/set-session-cookie';
 
 export function SignIn() {
   const router = useRouter();
@@ -15,15 +20,29 @@ export function SignIn() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    setError,
+    formState: { errors, isSubmitting },
   } = useForm<LoginFormData>({
-    resolver: createTranslatedResolver<LoginFormData>(loginSchema, tValidation),
+    resolver: valibotResolver(loginSchema),
     defaultValues: { email: '', password: '' },
   });
 
   const onSubmit = async (data: LoginFormData) => {
-    console.log('Data', data);
-    router.replace('/');
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, data.email, data.password);
+      const token = await userCredential.user.getIdToken();
+      await setSessionCookie(token);
+      router.replace('/');
+    } catch (error) {
+      if (error instanceof FirebaseError) {
+        handleFirebaseError(error, setError);
+      } else {
+        setError('root', {
+          type: 'manual',
+          message: error instanceof Error ? error.message : 'unknown_error',
+        });
+      }
+    }
   };
 
   return (
@@ -36,11 +55,12 @@ export function SignIn() {
           {...register('email')}
           id="email"
           type="text"
-          aria-label="email"
           className={`input w-auto ${errors.email ? 'input-error' : ''}`}
           placeholder="you@example.com"
         />
-        <p className="label text-error h-4">{errors.email?.message}</p>
+        <p className="label text-error h-4">
+          {errors.email?.message && tValidation(errors.email.message)}
+        </p>
 
         <label htmlFor="password" className="label text-foreground">
           {tForm('password')}
@@ -48,14 +68,26 @@ export function SignIn() {
         <input
           {...register('password')}
           id="password"
-          type="text"
-          aria-label="password"
+          type="password"
           className={`input w-auto ${errors.password ? 'input-error' : ''}`}
           placeholder="********"
         />
-        <p className="label text-error h-4">{errors.password?.message}</p>
+        <p className="label text-error h-4">
+          {errors.password?.message && tValidation(errors.password.message, { length: 8 })}
+        </p>
       </fieldset>
-      <button className="btn btn-success w-auto">{tForm('sign_in')}</button>
+      <button className="btn btn-success w-auto" disabled={isSubmitting}>
+        {isSubmitting && <span className="loading loading-spinner"></span>}
+        {tForm('sign_in')}
+      </button>
+      {errors.root && (
+        <div className="alert alert-error my-2 p-3 text-sm shadow-sm">
+          <svg className="h-5 w-5 shrink-0 stroke-current">
+            <use href="/icons.svg#error-icon"></use>
+          </svg>
+          <span>{errors.root.message}</span>
+        </div>
+      )}
     </form>
   );
 }

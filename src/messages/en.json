@@ -3,17 +3,17 @@
     "title": "Swagger Editor App"
   },
   "FormsLayout": {
-    "sign_in": {
+    "SignIn": {
       "form": "Sign up",
       "title": "Welcome back",
-      "subTitle": "Sign in to your account",
-      "account": "Don’t have an account?"
+      "sub-title": "Sign in to your account",
+      "account": "Don’t have an account? "
     },
-    "sign_up": {
+    "SignUp": {
       "form": "Sign in",
       "title": "Get started",
-      "subTitle": "Create a new account",
-      "account": "Already have an account?"
+      "sub-title": "Create a new account",
+      "account": "Already have an account? "
     }
   },
   "Forms": {
@@ -35,7 +35,11 @@
     "one_number": "Password must contain at least one number",
     "one_letter": "Password must contain at least one letter",
     "one_special": "Password must contain at least one special character",
-    "not_matched": "The passwords don't match"
+    "not_matched": "The passwords don't match",
+    "email_already_in_use": "The email address is already in use by another account.",
+    "invalid_credentials": "Wrong password or invalid account.",
+    "too_many_requests": "Too many attempts, try later.",
+    "unknown_error": "Unknown error."
   },
   "header": {
     "about": "About",
