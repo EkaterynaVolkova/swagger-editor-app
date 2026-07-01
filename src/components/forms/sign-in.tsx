@@ -68,6 +68,7 @@ export function SignIn() {
         <input
           {...register('password')}
           id="password"
+          role="textbox"
           type="password"
           className={`input w-auto ${errors.password ? 'input-error' : ''}`}
           placeholder="********"

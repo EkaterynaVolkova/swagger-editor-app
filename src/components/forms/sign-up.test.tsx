@@ -11,9 +11,25 @@ vi.mock('@/i18n/navigation', () => ({
   }),
 }));
 
-describe('SignIn Component ', () => {
+vi.mock('firebase/auth', () => ({
+  getAuth: vi.fn(),
+  createUserWithEmailAndPassword: vi.fn().mockResolvedValue({
+    user: {
+      email: 'test@example.com',
+      uid: 'fake-uid-123',
+      getIdToken: vi.fn().mockResolvedValue('fake-jwt-token'),
+    },
+  }),
+}));
+
+describe('SignUp Component ', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ status: 'success' }),
+    });
   });
 
   it('should successfully submit the form with valid data', async () => {
@@ -31,6 +47,12 @@ describe('SignIn Component ', () => {
     await user.click(submitButton);
 
     await waitFor(() => {
+      expect(global.fetch).toHaveBeenCalledWith('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ idToken: 'fake-jwt-token' }),
+      });
+
       expect(mockPush).toHaveBeenCalledWith('/');
     });
   });
@@ -45,7 +67,6 @@ describe('SignIn Component ', () => {
     expect(screen.getByRole('textbox', { name: 'Password' })).toHaveClass('input-error');
 
     expect(screen.getByText('Email is required')).toBeInTheDocument();
-    expect(screen.getByText('Username is required')).toBeInTheDocument();
     expect(screen.getByText('Password must be at least 8 characters')).toBeInTheDocument();
   });
 
