@@ -3,11 +3,11 @@
 import { useSwaggerSchema } from '@/hooks/use-swagger-schema';
 import { useTranslations } from 'next-intl';
 import { SwaggerEditor } from '../swagger-editor';
+import { useAuth } from '@/hooks/use-auth';
 
 export function SwaggerPage() {
   const t = useTranslations('swaggerPage');
-  // const { user } = useAuth();
-  const user = null;
+  const { isAuthenticated, loading } = useAuth();
 
   const { schema, updateSchema, errors, isValid, saveSchemaToFirebase } = useSwaggerSchema();
 
@@ -25,10 +25,14 @@ export function SwaggerPage() {
 
               <button
                 onClick={saveSchemaToFirebase}
-                disabled={!user || !isValid}
+                disabled={loading || !isAuthenticated || !isValid}
                 className="btn btn-outline btn-success btn-sm hover:bg-success bg-transparent hover:text-white"
               >
-                {t('saveButton')}
+                {loading ? (
+                  <span className="loading loading-spinner loading-xs text-success"></span>
+                ) : (
+                  t('saveButton')
+                )}
               </button>
             </div>
 
