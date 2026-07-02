@@ -20,10 +20,7 @@ export function LogoutButton() {
   };
 
   return (
-    <button
-      onClick={handleLogout}
-      className="btn btn-outline btn-sm border-swagger-red text-swagger-red hover:bg-swagger-red hover:border-swagger-red h-8 min-h-[2rem] w-auto text-xs font-semibold normal-case hover:text-white"
-    >
+    <button onClick={handleLogout} className="btn btn-outline btn-error btn-sm bg-transparent">
       {t('signOut')}
     </button>
   );

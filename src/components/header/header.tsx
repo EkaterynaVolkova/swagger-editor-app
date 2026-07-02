@@ -15,7 +15,7 @@ export async function Header() {
         <div className="flex items-center">
           <Link
             href={ROUTES.HOME}
-            className="text-swagger-green flex items-center gap-2 font-sans font-bold transition-opacity hover:text-white hover:opacity-80"
+            className="link link-success link-hover flex items-center gap-2 font-sans font-bold no-underline transition-opacity"
           >
             Swagger Editor App
           </Link>
@@ -23,14 +23,17 @@ export async function Header() {
 
         <div className="flex h-full items-center gap-5">
           <nav className="text-swagger-light-grey flex items-center gap-4 text-sm font-medium">
-            <Link href={ROUTES.ABOUT} className="hover:text-swagger-green py-2 transition-colors">
+            <Link
+              href={ROUTES.ABOUT}
+              className="link link-success link-hover py-2 transition-colors"
+            >
               {t('about')}
             </Link>
 
             {user && (
               <Link
                 href={ROUTES.HISTORY}
-                className="hover:text-swagger-green py-2 transition-colors"
+                className="link link-success link-hover py-2 transition-colors"
               >
                 {t('history')}
               </Link>
@@ -53,13 +56,13 @@ export async function Header() {
               <div className="flex items-center gap-2">
                 <Link
                   href={ROUTES.SIGN_IN}
-                  className="bg-swagger-blue hover:bg-swagger-blue-hover flex h-8 items-center justify-center rounded px-3 text-xs font-semibold text-white transition-colors"
+                  className="btn btn-primary flex h-8 items-center justify-center rounded px-3 text-xs font-semibold text-white transition-colors"
                 >
                   {t('signIn')}
                 </Link>
                 <Link
                   href={ROUTES.SIGN_UP}
-                  className="bg-swagger-green hover:bg-swagger-green-hover text-swagger-dark flex h-8 items-center justify-center rounded px-3 text-xs font-semibold transition-colors"
+                  className="btn btn-success text-swagger-dark flex h-8 items-center justify-center rounded px-3 text-xs font-semibold transition-colors"
                 >
                   {t('signUp')}
                 </Link>

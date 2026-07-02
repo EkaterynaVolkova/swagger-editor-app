@@ -10,7 +10,7 @@ export function LanguageSwitcher() {
       <Link
         href={pathname}
         locale="en"
-        className="hover:text-swagger-green text-gray-400 transition-colors"
+        className="link link-success link-hover hover:text-success text-gray-400 no-underline transition-colors"
       >
         EN
       </Link>
@@ -18,7 +18,7 @@ export function LanguageSwitcher() {
       <Link
         href={pathname}
         locale="ru"
-        className="hover:text-swagger-green text-gray-400 transition-colors"
+        className="link link-success link-hover hover:text-success text-gray-400 no-underline transition-colors"
       >
         RU
       </Link>

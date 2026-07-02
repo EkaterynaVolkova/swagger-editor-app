@@ -23,7 +23,7 @@ export function SwaggerPage() {
               <button
                 // onClick={saveSchemaToFirebase}
                 // disabled={!user || !isValid}
-                className="btn btn-outline btn-xs border-swagger-green text-swagger-green hover:bg-swagger-green hover:text-swagger-dark bg-transparent"
+                className="btn btn-outline btn-success btn-sm bg-transparent"
               >
                 {t('saveButton')}
               </button>
