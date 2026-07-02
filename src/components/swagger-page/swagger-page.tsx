@@ -1,12 +1,15 @@
 'use client';
 
+import { useSwaggerSchema } from '@/hooks/use-swagger-schema';
 import { useTranslations } from 'next-intl';
+import { SwaggerEditor } from '../swagger-editor';
 
 export function SwaggerPage() {
   const t = useTranslations('swaggerPage');
   // const { user } = useAuth();
+  const user = null;
 
-  // const { schema, updateSchema, errors, isValid, saveSchemaToFirebase } = useSwaggerSchema();
+  const { schema, updateSchema, errors, isValid, saveSchemaToFirebase } = useSwaggerSchema();
 
   return (
     <div className="flex h-full min-h-0 w-full flex-1 flex-col">
@@ -21,15 +24,17 @@ export function SwaggerPage() {
               </span>
 
               <button
-                // onClick={saveSchemaToFirebase}
-                // disabled={!user || !isValid}
-                className="btn btn-outline btn-success btn-sm bg-transparent"
+                onClick={saveSchemaToFirebase}
+                disabled={!user || !isValid}
+                className="btn btn-outline btn-success btn-sm hover:bg-success bg-transparent hover:text-white"
               >
                 {t('saveButton')}
               </button>
             </div>
 
-            <div className="flex-1 overflow-auto font-mono text-sm">SwaggerEditor Content</div>
+            <div className="flex-1 overflow-auto font-mono text-sm">
+              <SwaggerEditor value={schema} onChange={updateSchema} errors={errors} />
+            </div>
           </div>
         </div>
 

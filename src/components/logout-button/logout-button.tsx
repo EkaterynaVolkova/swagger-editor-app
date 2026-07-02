@@ -1,10 +1,10 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { signOut } from 'firebase/auth';
 import { useTranslations } from 'next-intl';
 import { auth } from '@/lib/firebase/client';
 import { ROUTES } from '@/constants/constants';
+import { useRouter } from '@/i18n/navigation';
 
 export function LogoutButton() {
   const router = useRouter();
