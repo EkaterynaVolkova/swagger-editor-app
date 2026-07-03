@@ -13,8 +13,8 @@ interface SwaggerEditorProps {
 
 export function SwaggerEditor({ value, onChange, errors }: SwaggerEditorProps) {
   return (
-    <div className="flex h-full min-h-0 w-full flex-1 flex-col gap-2 overflow-hidden">
-      <div className="border-swagger-border min-h-0 flex-1 overflow-hidden rounded border bg-[#1e1e1e]">
+    <div className="flex h-full min-h-0 w-full flex-1 flex-col gap-2">
+      <div className="border-swagger-border min-h-0 flex-1 rounded border bg-[#1e1e1e]">
         <CodeMirror
           value={value}
           theme="dark"

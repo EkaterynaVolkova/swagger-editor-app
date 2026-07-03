@@ -39,9 +39,9 @@ export default async function LocaleLayout({ children, params }: Props) {
   const messages = await getMessages();
 
   return (
-    <html lang={locale}>
+    <html lang={locale} className="h-full">
       <body
-        className={`${inter.className} bg-base-200 text-base-content flex h-screen w-screen flex-col overflow-hidden font-sans antialiased`}
+        className={`${inter.className} bg-base-200 text-base-content flex min-h-full flex-col font-sans antialiased`}
       >
         <NextIntlClientProvider messages={messages}>
           <Header />
