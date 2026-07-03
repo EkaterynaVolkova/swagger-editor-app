@@ -32,10 +32,10 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   return (
     <html lang={locale}>
-      <body className="bg-base-200 text-base-content flex min-h-screen flex-col">
+      <body className="bg-base-200 text-base-content flex h-screen w-screen flex-col overflow-hidden font-sans antialiased">
         <NextIntlClientProvider messages={messages}>
           <Header />
-          <main className="align flex flex-1 flex-col items-center pt-14">{children}</main>
+          <main className="align flex flex-1 flex-col items-center">{children}</main>
           <Footer />
         </NextIntlClientProvider>
       </body>

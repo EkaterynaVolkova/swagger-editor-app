@@ -36,7 +36,7 @@ export function SwaggerPage() {
               </button>
             </div>
 
-            <div className="flex-1 overflow-auto font-mono text-sm">
+            <div className="min-h-0 flex-1 overflow-hidden font-mono text-sm">
               <SwaggerEditor value={schema} onChange={updateSchema} errors={errors} />
             </div>
           </div>
