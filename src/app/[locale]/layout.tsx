@@ -5,6 +5,14 @@ import { locales, type Locale } from '@/i18n/config';
 import '@/app/globals.css';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
+import { Inter } from 'next/font/google';
+
+const inter = Inter({
+  subsets: ['latin', 'cyrillic'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-inter',
+  display: 'swap',
+});
 
 type Props = {
   children: React.ReactNode;
@@ -32,7 +40,9 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   return (
     <html lang={locale}>
-      <body className="bg-base-200 text-base-content flex h-screen w-screen flex-col overflow-hidden font-sans antialiased">
+      <body
+        className={`${inter.className} bg-base-200 text-base-content flex h-screen w-screen flex-col overflow-hidden font-sans antialiased`}
+      >
         <NextIntlClientProvider messages={messages}>
           <Header />
           <main className="align flex flex-1 flex-col items-center">{children}</main>
