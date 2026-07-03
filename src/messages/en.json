@@ -42,7 +42,7 @@
     "unknown_error": "Unknown error."
   },
   "header": {
-    "about": "About",
+    "about": "About Us",
     "history": "History",
     "signIn": "Sign In",
     "signUp": "Sign Up",
@@ -51,5 +51,10 @@
   "footer": {
     "allRightsReserved": "All rights reserved.",
     "aboutLink": "About Us"
+  },
+  "swaggerPage": {
+    "editorTitle": "Editor",
+    "viewerTitle": "Swagger UI Preview",
+    "saveButton": "Save Schema"
   }
 }

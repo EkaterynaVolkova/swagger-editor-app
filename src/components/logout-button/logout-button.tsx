@@ -1,10 +1,10 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { signOut } from 'firebase/auth';
 import { useTranslations } from 'next-intl';
 import { auth } from '@/lib/firebase/client';
 import { ROUTES } from '@/constants/constants';
+import { useRouter } from '@/i18n/navigation';
 
 export function LogoutButton() {
   const router = useRouter();
@@ -22,7 +22,7 @@ export function LogoutButton() {
   return (
     <button
       onClick={handleLogout}
-      className="border-swagger-red text-swagger-red hover:bg-swagger-red flex h-8 cursor-pointer items-center justify-center rounded border bg-transparent px-3 text-xs font-semibold transition-colors hover:text-white"
+      className="btn btn-outline btn-error btn-sm hover:bg-error bg-transparent hover:text-white"
     >
       {t('signOut')}
     </button>

@@ -10,61 +10,103 @@ export async function Header() {
   const t = await getTranslations('header');
 
   return (
-    <header className="bg-swagger-dark border-swagger-border sticky top-0 z-50 w-full border-b text-white shadow-md">
-      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4">
+    <header className="bg-swagger-dark border-swagger-border sticky top-0 z-50 h-14 w-full border-b text-white shadow-md">
+      <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-4">
         <div className="flex items-center">
           <Link
             href={ROUTES.HOME}
-            className="text-swagger-green flex items-center gap-2 font-sans font-bold transition-opacity hover:text-white hover:opacity-80"
+            className="link link-success link-hover font-sans font-bold no-underline"
           >
-            Swagger Editor App
+            Swagger Editor
           </Link>
         </div>
 
-        <div className="flex h-full items-center gap-5">
+        <div className="hidden h-full items-center gap-5 md:flex">
           <nav className="text-swagger-light-grey flex items-center gap-4 text-sm font-medium">
-            <Link href={ROUTES.ABOUT} className="hover:text-swagger-green py-2 transition-colors">
+            <Link href={ROUTES.ABOUT} className="link link-success link-hover py-2">
               {t('about')}
             </Link>
-
             {user && (
-              <Link
-                href={ROUTES.HISTORY}
-                className="hover:text-swagger-green py-2 transition-colors"
-              >
+              <Link href={ROUTES.HISTORY} className="link link-success link-hover py-2">
                 {t('history')}
               </Link>
             )}
           </nav>
-
+          <div className="bg-swagger-border h-6 w-[1px]"></div>
           <LanguageSwitcher />
+          <div className="bg-swagger-border h-6 w-[1px]"></div>
+          {user ? (
+            <div className="flex items-center gap-3">
+              <span className="font-mono text-xs text-gray-400">{user.email}</span>
+              <LogoutButton />
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <Link href={ROUTES.SIGN_IN} className="btn btn-primary btn-sm">
+                {t('signIn')}
+              </Link>
+              <Link href={ROUTES.SIGN_UP} className="btn btn-success btn-sm text-swagger-dark">
+                {t('signUp')}
+              </Link>
+            </div>
+          )}
+        </div>
 
-          <div className="bg-swagger-dark h-6 w-[1px]"></div>
+        <div className="flex items-center gap-2 md:hidden">
+          {user && <LogoutButton />}
 
-          <div className="flex items-center gap-3">
-            {user ? (
-              <div className="flex items-center gap-3">
-                <span className="hidden font-mono text-xs text-gray-400 md:inline">
+          <div className="dropdown dropdown-end">
+            <label tabIndex={0} className="btn btn-ghost btn-circle">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h16M4 18h7"
+                />
+              </svg>
+            </label>
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content bg-swagger-dark border-swagger-border rounded-box z-[60] mt-3 w-52 gap-3 border p-4 shadow"
+            >
+              <li>
+                <Link href={ROUTES.ABOUT}>{t('about')}</Link>
+              </li>
+              {user && (
+                <li>
+                  <Link href={ROUTES.HISTORY}>{t('history')}</Link>
+                </li>
+              )}
+              <div className="border-swagger-border my-1 border-t"></div>
+              <div className="px-3 py-1">
+                <LanguageSwitcher />
+              </div>
+              {user && (
+                <span className="px-3 py-1 font-mono text-[10px] break-all text-gray-400">
                   {user.email}
                 </span>
-                <LogoutButton />
-              </div>
-            ) : (
-              <div className="flex items-center gap-2">
-                <Link
-                  href={ROUTES.SIGN_IN}
-                  className="bg-swagger-blue hover:bg-swagger-blue-hover flex h-8 items-center justify-center rounded px-3 text-xs font-semibold text-white transition-colors"
-                >
-                  {t('signIn')}
-                </Link>
-                <Link
-                  href={ROUTES.SIGN_UP}
-                  className="bg-swagger-green hover:bg-swagger-green-hover text-swagger-dark flex h-8 items-center justify-center rounded px-3 text-xs font-semibold transition-colors"
-                >
-                  {t('signUp')}
-                </Link>
-              </div>
-            )}
+              )}
+              {!user && (
+                <div className="mt-2 flex flex-col gap-2">
+                  <Link href={ROUTES.SIGN_IN} className="btn btn-primary btn-sm w-full">
+                    {t('signIn')}
+                  </Link>
+                  <Link
+                    href={ROUTES.SIGN_UP}
+                    className="btn btn-success btn-sm text-swagger-dark w-full"
+                  >
+                    {t('signUp')}
+                  </Link>
+                </div>
+              )}
+            </ul>
           </div>
         </div>
       </div>

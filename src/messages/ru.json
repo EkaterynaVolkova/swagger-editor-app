@@ -51,5 +51,10 @@
   "footer": {
     "allRightsReserved": "Все права защищены.",
     "aboutLink": "О проекте"
+  },
+  "swaggerPage": {
+    "editorTitle": "Редактор",
+    "viewerTitle": "Просмотр Swagger UI",
+    "saveButton": "Сохранить схему"
   }
 }
