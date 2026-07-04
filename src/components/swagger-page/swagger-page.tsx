@@ -9,7 +9,8 @@ export function SwaggerPage() {
   const t = useTranslations('swaggerPage');
   const { isAuthenticated, loading } = useAuth();
 
-  const { schema, updateSchema, errors, isValid, saveSchemaToFirebase } = useSwaggerSchema();
+  const { schema, updateSchema, errors, isValid, format, toggleFormat, saveSchemaToFirebase } =
+    useSwaggerSchema();
 
   return (
     <div className="flex h-full min-h-0 w-full flex-1 flex-col">
@@ -37,7 +38,13 @@ export function SwaggerPage() {
             </div>
 
             <div className="min-h-0 flex-1 overflow-hidden font-mono text-sm">
-              <SwaggerEditor value={schema} onChange={updateSchema} errors={errors} />
+              <SwaggerEditor
+                value={schema}
+                onChange={updateSchema}
+                format={format}
+                onFormatChange={toggleFormat}
+                errors={errors}
+              />
             </div>
           </div>
         </div>

@@ -56,5 +56,8 @@
     "editorTitle": "Editor",
     "viewerTitle": "Swagger UI Preview",
     "saveButton": "Save Schema"
+  },
+  "editor": {
+    "errorsTitle": "Errors"
   }
 }
