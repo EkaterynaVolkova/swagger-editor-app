@@ -7,10 +7,18 @@ import { useAuth } from '@/hooks/use-auth';
 
 export function SwaggerPage() {
   const t = useTranslations('swaggerPage');
-  const { isAuthenticated, loading } = useAuth();
+  const { user, isAuthenticated, loading } = useAuth();
 
-  const { schema, updateSchema, errors, isValid, format, toggleFormat, saveSchemaToFirebase } =
-    useSwaggerSchema();
+  const {
+    schema,
+    updateSchema,
+    errors,
+    isValid,
+    format,
+    toggleFormat,
+    isSaving,
+    saveSchemaToFirebase,
+  } = useSwaggerSchema(user);
 
   return (
     <div className="flex h-full min-h-0 w-full flex-1 flex-col">
@@ -26,7 +34,7 @@ export function SwaggerPage() {
 
               <button
                 onClick={saveSchemaToFirebase}
-                disabled={loading || !isAuthenticated || !isValid}
+                disabled={loading || isSaving || !isAuthenticated || !isValid}
                 className="btn btn-outline btn-success btn-sm hover:bg-success bg-transparent hover:text-white"
               >
                 {loading ? (
