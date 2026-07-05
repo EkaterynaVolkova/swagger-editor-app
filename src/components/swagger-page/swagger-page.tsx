@@ -50,7 +50,7 @@ export function SwaggerPage() {
                 value={schema}
                 onChange={updateSchema}
                 format={format}
-                onFormatChange={toggleFormat}
+                onFormatChange={(target) => toggleFormat(target)}
                 errors={errors}
               />
             </div>

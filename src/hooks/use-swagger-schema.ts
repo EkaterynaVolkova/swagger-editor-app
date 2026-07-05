@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useRef, useEffect, RefObject } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import * as yaml from 'js-yaml';
 import SwaggerParser from '@apidevtools/swagger-parser';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
@@ -31,12 +31,11 @@ const getSyntaxError = (err: unknown): ValidationError => {
 const validateAsync = async (
   text: string,
   format: 'json' | 'yaml',
-  key: number,
-  validationKey: RefObject<number>,
+  isStale: () => boolean,
   setErrors: (errors: ValidationError[]) => void
 ) => {
   if (!text.trim()) {
-    if (validationKey.current === key) setErrors([]);
+    if (!isStale()) setErrors([]);
     return;
   }
 
@@ -44,15 +43,15 @@ const validateAsync = async (
   try {
     parsed = parseText(text, format);
   } catch (err) {
-    if (validationKey.current === key) setErrors([getSyntaxError(err)]);
+    if (!isStale()) setErrors([getSyntaxError(err)]);
     return;
   }
 
   try {
     await SwaggerParser.validate(parsed as Parameters<typeof SwaggerParser.validate>[0]);
-    if (validationKey.current === key) setErrors([]);
+    if (!isStale()) setErrors([]);
   } catch (err) {
-    if (validationKey.current !== key) return;
+    if (isStale()) return;
     const message = err instanceof Error ? err.message.split('\n')[0] : String(err);
     setErrors([{ message }]);
   }
@@ -65,6 +64,13 @@ export function useSwaggerSchema(user: User | null) {
   const [isSaving, setIsSaving] = useState(false);
   const [isLoadingSchema, setIsLoadingSchema] = useState(false);
   const validationKey = useRef(0);
+  const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (debounceTimer.current) clearTimeout(debounceTimer.current);
+    };
+  }, []);
 
   useEffect(() => {
     if (!user) return;
@@ -76,18 +82,19 @@ export function useSwaggerSchema(user: User | null) {
         const snap = await getDoc(ref);
         if (snap.exists()) {
           const saved = snap.data().schema as string;
-
           setSchema((current) => {
             if (current.trim()) return current;
-            const format = getFormat(saved);
-            setFormat(format);
+            const fmt = getFormat(saved);
+            setFormat(fmt);
             const key = ++validationKey.current;
-            validateAsync(saved, format, key, validationKey, setErrors);
+            const isStale = () => validationKey.current !== key;
+            validateAsync(saved, fmt, isStale, setErrors);
             return saved;
           });
         }
-      } catch (err) {
-        throw new Error(`Failed to load schema from Firebase: ${err}`);
+      } catch {
+        // TODO: подключить toast или pop-up когда будет готов
+        setErrors([{ message: 'Failed to load saved schema' }]);
       } finally {
         setIsLoadingSchema(false);
       }
@@ -97,46 +104,61 @@ export function useSwaggerSchema(user: User | null) {
   }, [user]);
 
   const validate = useCallback((text: string, fmt: 'json' | 'yaml', key: number) => {
-    validateAsync(text, fmt, key, validationKey, setErrors);
+    if (debounceTimer.current) clearTimeout(debounceTimer.current);
+    debounceTimer.current = setTimeout(() => {
+      const isStale = () => validationKey.current !== key;
+      validateAsync(text, fmt, isStale, setErrors);
+    }, 350);
   }, []);
 
   const updateSchema = useCallback(
     (value: string) => {
-      const format = getFormat(value);
+      const fmt = getFormat(value);
       setSchema(value);
-      setFormat(format);
+      setFormat(fmt);
       const key = ++validationKey.current;
-      validate(value, format, key);
+      validate(value, fmt, key);
     },
     [validate]
   );
 
-  const toggleFormat = useCallback(() => {
-    if (!schema.trim() || errors.length > 0) return;
-    try {
-      if (format === 'yaml') {
-        const converted = JSON.stringify(yaml.load(schema), null, 2);
-        setSchema(converted);
-        setFormat('json');
-      } else {
-        const converted = yaml.dump(JSON.parse(schema), { indent: 2 });
-        setSchema(converted);
-        setFormat('yaml');
-      }
-    } catch (err) {
-      const message = err instanceof Error ? err.message : String(err);
-      setErrors([{ message: `Conversion failed: ${message}` }]);
-    }
-  }, [schema, format, errors]);
+  const toggleFormat = useCallback(
+    (target?: 'json' | 'yaml') => {
+      const nextFormat = target ?? (format === 'yaml' ? 'json' : 'yaml');
+      if (nextFormat === format || !schema.trim() || errors.length > 0) return;
 
-  const saveSchemaToFirebase = useCallback(async () => {
-    if (!user || errors.length > 0 || !schema.trim()) return;
+      try {
+        const converted =
+          nextFormat === 'json'
+            ? JSON.stringify(yaml.load(schema), null, 2)
+            : yaml.dump(JSON.parse(schema), { indent: 2 });
+
+        setSchema(converted);
+        setFormat(nextFormat);
+
+        const key = ++validationKey.current;
+        const isStale = () => validationKey.current !== key;
+        validateAsync(converted, nextFormat, isStale, setErrors);
+      } catch (err) {
+        const message = err instanceof Error ? err.message : String(err);
+        // TODO: подключить toast или pop-up когда будет готов
+        setErrors([{ message: `Conversion failed: ${message}` }]);
+      }
+    },
+    [schema, format, errors]
+  );
+
+  const saveSchemaToFirebase = useCallback(async (): Promise<boolean> => {
+    if (!user || errors.length > 0 || !schema.trim()) return false;
     setIsSaving(true);
     try {
       const ref = doc(db, 'schemas', user.uid);
-      await setDoc(ref, { schema, updatedAt: new Date() });
-    } catch (err) {
-      throw new Error(`Failed to save schema: ${err}`);
+      await setDoc(ref, { schema, updatedAt: new Date(), userId: user.uid });
+      return true;
+    } catch {
+      // TODO: подключить toast или pop-up когда будет готов
+      setErrors([{ message: 'Failed to save schema' }]);
+      return false;
     } finally {
       setIsSaving(false);
     }
