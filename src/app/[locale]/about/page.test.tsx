@@ -1,11 +1,27 @@
 import { render, screen, within } from '@/__test__/test-utils';
-import { describe, expect, it } from 'vitest';
+import messages from '@/messages/en.json';
+import { describe, expect, it, vi } from 'vitest';
 
 import AboutPage from './page';
 
+vi.mock('next-intl/server', () => ({
+  getTranslations: vi.fn((namespace: keyof typeof messages) => {
+    const namespaceMessages = messages[namespace];
+
+    return (key: string) =>
+      key.split('.').reduce<unknown>((current, segment) => {
+        if (current && typeof current === 'object' && segment in current) {
+          return current[segment as keyof typeof current];
+        }
+
+        return key;
+      }, namespaceMessages) as string;
+  }),
+}));
+
 describe('AboutPage', () => {
-  it('shows course, project, team, technologies and resource links', () => {
-    render(<AboutPage />);
+  it('shows course, project, team, technologies and resource links', async () => {
+    render(await AboutPage());
 
     expect(screen.getByRole('heading', { name: 'Swagger Editor App' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'RS School React course' })).toHaveAttribute(
