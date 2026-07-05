@@ -9,7 +9,10 @@ export function proxy(request: NextRequest) {
   const session = request.cookies.get('__session')?.value;
   const { pathname } = request.nextUrl;
 
-  const locale = pathname.split('/')[1] || routing.defaultLocale;
+  const pathLocale = pathname.split('/')[1];
+  const locale = routing.locales.includes(pathLocale as (typeof routing.locales)[number])
+    ? pathLocale
+    : routing.defaultLocale;
   const locales = routing.locales.join('|');
   const cleanPath = pathname.replace(new RegExp(`^\\/(${locales})`), '') || '/';
 
