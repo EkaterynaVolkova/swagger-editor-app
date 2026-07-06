@@ -5,7 +5,7 @@ import CodeMirror from '@uiw/react-codemirror';
 import { json } from '@codemirror/lang-json';
 import { yaml } from '@codemirror/lang-yaml';
 import { lintGutter } from '@codemirror/lint';
-import { useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import { useTranslations } from 'next-intl';
 import { XCircleIcon } from '../icons';
 import { FormatButton } from './format-button';
@@ -27,7 +27,7 @@ export function SwaggerEditor({
 }: SwaggerEditorProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const t = useTranslations('editor');
-  const baseExtensions = [json(), yaml(), lintGutter()];
+  const baseExtensions = useMemo(() => [json(), yaml(), lintGutter()], []);
 
   return (
     <div className="flex h-full min-h-0 w-full flex-1 flex-col gap-2 overflow-hidden">

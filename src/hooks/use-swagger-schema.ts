@@ -82,15 +82,12 @@ export function useSwaggerSchema(user: User | null) {
         const snap = await getDoc(ref);
         if (snap.exists()) {
           const saved = snap.data().schema as string;
-          setSchema((current) => {
-            if (current.trim()) return current;
-            const fmt = getFormat(saved);
-            setFormat(fmt);
-            const key = ++validationKey.current;
-            const isStale = () => validationKey.current !== key;
-            validateAsync(saved, fmt, isStale, setErrors);
-            return saved;
-          });
+          setSchema(saved);
+          const fmt = getFormat(saved);
+          setFormat(fmt);
+          const key = ++validationKey.current;
+          const isStale = () => validationKey.current !== key;
+          await validateAsync(saved, fmt, isStale, setErrors);
         }
       } catch {
         // TODO: подключить toast или pop-up когда будет готов
