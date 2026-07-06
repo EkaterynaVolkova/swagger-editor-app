@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { SwaggerEditor } from '../swagger-editor';
 import { useAuth } from '@/hooks/use-auth';
 import { SwaggerViewer } from '@/components/swagger-viewer';
+import { schemaJson } from '@/constants/schema-json';
 
 export function SwaggerPage() {
   const t = useTranslations('swaggerPage');
@@ -18,7 +19,7 @@ export function SwaggerPage() {
     toggleFormat,
     isSaving,
     saveSchemaToFirebase,
-  } = useSwaggerSchema(user);
+  } = useSwaggerSchema(user, JSON.stringify(schemaJson, null, 2));
 
   return (
     <>
@@ -34,6 +35,7 @@ export function SwaggerPage() {
 
               <button
                 onClick={saveSchemaToFirebase}
+                aria-label="save-schema"
                 disabled={loading || isSaving || !isAuthenticated || !isValid}
                 className="btn btn-outline btn-success btn-sm hover:bg-success bg-transparent hover:text-white"
               >

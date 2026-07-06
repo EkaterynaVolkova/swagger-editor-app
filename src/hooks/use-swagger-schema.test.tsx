@@ -105,8 +105,7 @@ describe('useSwaggerSchema', () => {
 
     await waitFor(() => {
       expect(result.current.schema).toBe(savedSchema);
+      expect(result.current.format).toBe('yaml');
     });
-
-    expect(result.current.format).toBe('yaml');
   });
 });

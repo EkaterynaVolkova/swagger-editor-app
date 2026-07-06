@@ -42,7 +42,7 @@ describe('SwaggerPage', () => {
     expect(screen.getByText('Swagger UI Preview')).toBeInTheDocument();
     expect(screen.getByText('Mocked editor')).toBeInTheDocument();
 
-    await user.click(screen.getByRole('button', { name: 'Save Schema' }));
+    await user.click(screen.getByRole('button', { name: 'save-schema' }));
     expect(saveSchemaToFirebase).toHaveBeenCalledTimes(1);
   });
 
@@ -54,7 +54,7 @@ describe('SwaggerPage', () => {
 
     render(<SwaggerPage />);
 
-    expect(screen.getByRole('button')).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'save-schema' })).toBeDisabled();
     expect(screen.getByText('', { selector: '.loading' })).toBeInTheDocument();
   });
 });
