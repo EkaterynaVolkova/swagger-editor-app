@@ -27,7 +27,13 @@ export function SwaggerViewer({ schema, errors }: Props) {
     <ApiReferenceReact
       configuration={{
         content: schema,
+        layout: 'classic',
         theme: 'saturn',
+        generateHeadingSlug: () => '',
+        generateModelSlug: () => '',
+        generateTagSlug: () => '',
+        generateOperationSlug: () => '',
+        generateWebhookSlug: () => '',
         proxyUrl: absoluteProxy,
         isEditable: false,
         showDeveloperTools: 'never',

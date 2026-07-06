@@ -46,7 +46,11 @@ export function SwaggerEditor({
         <CodeMirror
           value={value}
           theme="dark"
-          height={'100%'}
+          height="100%"
+          style={{
+            maxHeight: '70vh',
+            overflow: 'auto',
+          }}
           extensions={baseExtensions}
           onChange={(newValue) => onChange(newValue)}
           className="h-full font-mono text-sm"
