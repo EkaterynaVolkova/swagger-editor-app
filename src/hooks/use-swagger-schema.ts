@@ -6,6 +6,7 @@ import SwaggerParser from '@apidevtools/swagger-parser';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase/client';
 import { User } from 'firebase/auth';
+import { schemaJson } from '@/constants/schema-json';
 
 export interface ValidationError {
   line?: number;
@@ -58,7 +59,7 @@ const validateAsync = async (
 };
 
 export function useSwaggerSchema(user: User | null) {
-  const [schema, setSchema] = useState('');
+  const [schema, setSchema] = useState(JSON.stringify(schemaJson, null, 2));
   const [errors, setErrors] = useState<ValidationError[]>([]);
   const [format, setFormat] = useState<'json' | 'yaml'>('yaml');
   const [isSaving, setIsSaving] = useState(false);
