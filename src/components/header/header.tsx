@@ -4,6 +4,7 @@ import { getTranslations } from 'next-intl/server';
 import { ROUTES } from '@/constants/constants';
 import { Link } from '@/i18n/navigation';
 import { LanguageSwitcher } from '../language-switcher';
+import { MenuIcon } from '../icons';
 
 export async function Header() {
   const user = await getUser();
@@ -56,21 +57,8 @@ export async function Header() {
           {user && <LogoutButton />}
 
           <div className="dropdown dropdown-end">
-            <label tabIndex={0} className="btn btn-ghost btn-circle">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16M4 18h7"
-                />
-              </svg>
+            <label tabIndex={0} className="btn btn-ghost btn-circle text-white">
+              <MenuIcon />
             </label>
             <ul
               tabIndex={0}

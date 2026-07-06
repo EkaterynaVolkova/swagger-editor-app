@@ -24,12 +24,20 @@ vi.mock('@codemirror/lang-yaml', () => ({
 describe('SwaggerEditor', () => {
   it('renders editor text and reports validation errors', async () => {
     const onChange = vi.fn();
+    const onFormatChange = vi.fn();
+
     const { user } = render(
-      <SwaggerEditor value="openapi: 3.0.0" onChange={onChange} errors={[{ message: 'Invalid' }]} />
+      <SwaggerEditor
+        value="openapi: 3.0.0"
+        format="yaml"
+        onFormatChange={onFormatChange}
+        onChange={onChange}
+        errors={[{ message: 'Invalid', line: 1 }]}
+      />
     );
 
     expect(screen.getByLabelText('swagger editor')).toHaveValue('openapi: 3.0.0');
-    expect(screen.getByText('Errors count: 1')).toBeInTheDocument();
+    expect(screen.getByText(/Errors\s*\(\s*1\s*\)/)).toBeInTheDocument();
 
     await user.clear(screen.getByLabelText('swagger editor'));
     await user.type(screen.getByLabelText('swagger editor'), 'info');

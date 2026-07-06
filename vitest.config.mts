@@ -18,6 +18,7 @@ export default defineConfig({
         'src/i18n/**/*',
         'src/**/*.d.ts',
         'src/middleware.ts',
+        'src/lib/firebase/admin.ts'
       ],
       thresholds: {
         global: {
