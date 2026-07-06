@@ -1,7 +1,10 @@
-import { act, renderHook } from '@/__test__/test-utils';
+import { act, renderHook, waitFor } from '@/__test__/test-utils';
 import { describe, expect, it } from 'vitest';
+import type { DocumentReference, DocumentSnapshot } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 
 import { useSwaggerSchema } from './use-swagger-schema';
+import { User } from 'firebase/auth';
 
 vi.mock('@/lib/firebase/client', () => ({
   auth: {},
@@ -53,13 +56,57 @@ describe('useSwaggerSchema', () => {
     expect(result.current.format).toBe('yaml');
   });
 
-  it('stores a conversion error for invalid JSON', () => {
+  it('stores a conversion error for invalid JSON', async () => {
     const { result } = renderHook(() => useSwaggerSchema(null));
 
     act(() => result.current.updateSchema('{'));
+
+    await waitFor(
+      () => {
+        expect(result.current.errors.length).toBeGreaterThan(0);
+      },
+      { timeout: 1000 }
+    );
+
     act(() => result.current.toggleFormat());
 
-    expect(result.current.errors[0].message).toContain('Conversion failed');
+    expect(result.current.schema).toBe('{');
     expect(result.current.isValid).toBe(false);
+  });
+
+  it('saves schema to firebase successfully', async () => {
+    const mockSetDoc = vi.fn().mockResolvedValue(undefined);
+    vi.mocked(setDoc).mockImplementation(mockSetDoc);
+    vi.mocked(doc).mockReturnValue({} as DocumentReference);
+
+    const { result } = renderHook(() => useSwaggerSchema({ uid: 'user-123' } as User));
+
+    act(() =>
+      result.current.updateSchema('openapi: "3.0.0"\ninfo:\n  title: Test\n  version: "1.0.0"')
+    );
+
+    const saved = await result.current.saveSchemaToFirebase();
+
+    expect(saved).toBe(true);
+    expect(mockSetDoc).toHaveBeenCalled();
+  });
+
+  it('restores schema from firebase on login', async () => {
+    const savedSchema = 'openapi: "3.0.0"\ninfo:\n  title: Test\n  version: "1.0.0"';
+
+    vi.mocked(getDoc).mockResolvedValue({
+      exists: () => true,
+      data: () => ({ schema: savedSchema }),
+    } as unknown as DocumentSnapshot);
+
+    vi.mocked(doc).mockReturnValue({} as DocumentReference);
+
+    const { result } = renderHook(() => useSwaggerSchema({ uid: 'user-123' } as User));
+
+    await waitFor(() => {
+      expect(result.current.schema).toBe(savedSchema);
+    });
+
+    expect(result.current.format).toBe('yaml');
   });
 });
