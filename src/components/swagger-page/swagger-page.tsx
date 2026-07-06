@@ -5,15 +5,20 @@ import { useTranslations } from 'next-intl';
 import { SwaggerEditor } from '../swagger-editor';
 import { useAuth } from '@/hooks/use-auth';
 import { SwaggerViewer } from '@/components/swagger-viewer';
-import { schemaJson } from '@/constants/schema-json';
 
 export function SwaggerPage() {
   const t = useTranslations('swaggerPage');
-  const { isAuthenticated, loading } = useAuth();
-
-  const { schema, updateSchema, errors, isValid, saveSchemaToFirebase } = useSwaggerSchema(
-    JSON.stringify(schemaJson, null, 2)
-  );
+  const { user, isAuthenticated, loading } = useAuth();
+  const {
+    schema,
+    updateSchema,
+    errors,
+    isValid,
+    format,
+    toggleFormat,
+    isSaving,
+    saveSchemaToFirebase,
+  } = useSwaggerSchema(user);
 
   return (
     <>
@@ -29,7 +34,7 @@ export function SwaggerPage() {
 
               <button
                 onClick={saveSchemaToFirebase}
-                disabled={loading || !isAuthenticated || !isValid}
+                disabled={loading || isSaving || !isAuthenticated || !isValid}
                 className="btn btn-outline btn-success btn-sm hover:bg-success bg-transparent hover:text-white"
               >
                 {loading ? (
@@ -39,9 +44,14 @@ export function SwaggerPage() {
                 )}
               </button>
             </div>
-
-            <div className="min-h-0 flex-1 font-mono text-sm">
-              <SwaggerEditor value={schema} onChange={updateSchema} errors={errors} />
+            <div className="min-h-0 flex-1 overflow-hidden font-mono text-sm">
+              <SwaggerEditor
+                value={schema}
+                onChange={updateSchema}
+                format={format}
+                onFormatChange={toggleFormat}
+                errors={errors}
+              />
             </div>
           </div>
         </div>

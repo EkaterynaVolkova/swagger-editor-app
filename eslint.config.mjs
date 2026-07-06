@@ -43,6 +43,7 @@ const eslintConfig = defineConfig([
     ".husky/**",
     ".vite/**",
     "node_modules/**",
+    ".netlify/**",
     "dist/**",
     ".eslintcache",
     ".prettierrc*",
