@@ -34,8 +34,20 @@ describe('proxy', () => {
     expect(response.headers.get('location')).toBe('http://localhost/en/');
   });
 
-  it('allows public routes through i18n routing', () => {
+  it('allows public about route for guests', () => {
     const response = proxy(createRequest('/en/about') as never);
+
+    expect(response.status).toBe(200);
+  });
+
+  it('allows public about route for authenticated users', () => {
+    const response = proxy(createRequest('/en/about', 'session') as never);
+
+    expect(response.status).toBe(200);
+  });
+
+  it('allows localized Russian public about route', () => {
+    const response = proxy(createRequest('/ru/about') as never);
 
     expect(response.status).toBe(200);
   });
