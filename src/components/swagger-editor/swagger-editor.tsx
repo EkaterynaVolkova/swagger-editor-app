@@ -8,6 +8,7 @@ import { lintGutter } from '@codemirror/lint';
 import { useRef } from 'react';
 import { useTranslations } from 'next-intl';
 import { XCircleIcon } from '../icons';
+import { FormatButton } from './format-button';
 
 interface SwaggerEditorProps {
   value: string;
@@ -16,8 +17,6 @@ interface SwaggerEditorProps {
   onChange: (value: string) => void;
   errors?: ValidationError[];
 }
-
-const baseExtensions = [json(), yaml(), lintGutter()];
 
 export function SwaggerEditor({
   value,
@@ -28,32 +27,15 @@ export function SwaggerEditor({
 }: SwaggerEditorProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const t = useTranslations('editor');
+  const baseExtensions = [json(), yaml(), lintGutter()];
 
   return (
     <div className="flex h-full min-h-0 w-full flex-1 flex-col gap-2 overflow-hidden">
       {/* Format toggle */}
       <div className="flex shrink-0 items-center gap-1 self-end">
-        <button
-          onClick={() => onFormatChange('json')}
-          className={`rounded px-2.5 py-1 font-mono text-[11px] font-semibold transition-colors ${
-            format === 'json'
-              ? 'bg-swagger-green text-swagger-dark'
-              : 'text-gray-400 hover:text-white'
-          }`}
-        >
-          JSON
-        </button>
+        <FormatButton type="json" currentFormat={format} onClick={onFormatChange} />
         <span className="text-gray-600">/</span>
-        <button
-          onClick={() => onFormatChange('yaml')}
-          className={`rounded px-2.5 py-1 font-mono text-[11px] font-semibold transition-colors ${
-            format === 'yaml'
-              ? 'bg-swagger-green text-swagger-dark'
-              : 'text-gray-400 hover:text-white'
-          }`}
-        >
-          YAML
-        </button>
+        <FormatButton type="yaml" currentFormat={format} onClick={onFormatChange} />
       </div>
 
       {/* Editor */}
@@ -65,7 +47,7 @@ export function SwaggerEditor({
           value={value}
           theme="dark"
           height={'100%'}
-          extensions={[...baseExtensions]}
+          extensions={baseExtensions}
           onChange={(newValue) => onChange(newValue)}
           className="h-full font-mono text-sm"
           basicSetup={{
