@@ -56,7 +56,7 @@ export async function Header() {
           {user && <LogoutButton />}
 
           <div className="dropdown dropdown-end">
-            <label tabIndex={0} className="btn btn-ghost btn-circle">
+            <label tabIndex={0} className="btn btn-ghost btn-circle text-white">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5"
