@@ -5,7 +5,6 @@ import { useTranslations } from 'next-intl';
 import { SwaggerEditor } from '../swagger-editor';
 import { useAuth } from '@/hooks/use-auth';
 import { SwaggerViewer } from '@/components/swagger-viewer';
-import { schemaJson } from '@/constants/schema-json';
 
 export function SwaggerPage() {
   const t = useTranslations('swaggerPage');
@@ -19,7 +18,7 @@ export function SwaggerPage() {
     toggleFormat,
     isSaving,
     saveSchemaToFirebase,
-  } = useSwaggerSchema(user, JSON.stringify(schemaJson, null, 2));
+  } = useSwaggerSchema(user);
 
   return (
     <>

@@ -57,8 +57,8 @@ const validateAsync = async (
   }
 };
 
-export function useSwaggerSchema(user: User | null, initialSchema = '') {
-  const [schema, setSchema] = useState(initialSchema);
+export function useSwaggerSchema(user: User | null) {
+  const [schema, setSchema] = useState('');
   const [errors, setErrors] = useState<ValidationError[]>([]);
   const [format, setFormat] = useState<'json' | 'yaml'>('yaml');
   const [isSaving, setIsSaving] = useState(false);
@@ -75,9 +75,9 @@ export function useSwaggerSchema(user: User | null, initialSchema = '') {
   useEffect(() => {
     if (!user) {
       const resetSchema = () => {
-        setSchema(initialSchema);
+        setSchema('');
         setErrors([]);
-        setFormat(getFormat(initialSchema));
+        setFormat(getFormat(''));
       };
 
       resetSchema();
@@ -118,7 +118,7 @@ export function useSwaggerSchema(user: User | null, initialSchema = '') {
     return () => {
       active = false;
     };
-  }, [user, initialSchema]);
+  }, [user]);
 
   const validate = useCallback((text: string, fmt: 'json' | 'yaml', key: number) => {
     if (debounceTimer.current) clearTimeout(debounceTimer.current);
