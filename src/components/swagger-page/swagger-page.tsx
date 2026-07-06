@@ -47,7 +47,7 @@ export function SwaggerPage() {
         </div>
 
         {/* Swagger UI */}
-        <div className="text-neutral flex min-h-0 min-w-0 flex-1 basis-1/2 flex-col bg-white landscape:basis-1/2">
+        <div className="text-neutral bg-swagger-dark flex min-h-0 min-w-0 flex-1 basis-1/2 flex-col landscape:basis-1/2">
           <div className="flex min-h-0 flex-1 flex-col p-4">
             <div className="mb-2 shrink-0">
               <span className="text-[11px] font-semibold tracking-wider text-gray-400 uppercase">

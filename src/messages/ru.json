@@ -57,7 +57,7 @@
     "viewerTitle": "Просмотр Swagger UI",
     "saveButton": "Сохранить схему"
   },
-  "SwaggerView": {
+  "SwaggerViewer": {
     "idle": "❌ Ожидание действительной схемы OpenAPI для заполнения эндпоинтов..."
   }
 }

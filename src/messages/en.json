@@ -57,7 +57,7 @@
     "viewerTitle": "Swagger UI Preview",
     "saveButton": "Save Schema"
   },
-  "SwaggerView": {
+  "SwaggerViewer": {
     "idle": "❌ Waiting for a valid OpenAPI schema to populate endpoints..."
   }
 }

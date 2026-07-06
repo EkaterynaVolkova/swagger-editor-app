@@ -1,10 +1,11 @@
 'use client';
 
+import { ApiReferenceReact } from '@scalar/api-reference-react';
+import { useTranslations } from 'next-intl';
+
 import { hiddenClients } from '@/constants/hide-clients';
 import { ValidationError } from '@/hooks/use-swagger-schema';
-import { ApiReferenceReact } from '@scalar/api-reference-react';
 import '@scalar/api-reference-react/style.css';
-import { useTranslations } from 'next-intl';
 
 interface Props {
   schema: string;
@@ -12,7 +13,7 @@ interface Props {
 }
 
 export function SwaggerViewer({ schema, errors }: Props) {
-  const t = useTranslations('SwaggerView');
+  const t = useTranslations('SwaggerViewer');
   let absoluteProxy: string | undefined = undefined;
 
   if (typeof window !== 'undefined') {
