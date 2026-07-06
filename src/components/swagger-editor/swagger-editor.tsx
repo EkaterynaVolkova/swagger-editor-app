@@ -5,7 +5,7 @@ import CodeMirror from '@uiw/react-codemirror';
 import { json } from '@codemirror/lang-json';
 import { yaml } from '@codemirror/lang-yaml';
 import { lintGutter } from '@codemirror/lint';
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import { useTranslations } from 'next-intl';
 
 interface SwaggerEditorProps {
@@ -43,18 +43,7 @@ export function SwaggerEditor({
   errors,
 }: SwaggerEditorProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [editorHeight, setEditorHeight] = useState('100%');
   const t = useTranslations('editor');
-
-  useEffect(() => {
-    if (!containerRef.current) return;
-    const observer = new ResizeObserver((entries) => {
-      const height = entries[0].contentRect.height;
-      setEditorHeight(height > 0 ? `${height}px` : '100%');
-    });
-    observer.observe(containerRef.current);
-    return () => observer.disconnect();
-  }, []);
 
   return (
     <div className="flex h-full min-h-0 w-full flex-1 flex-col gap-2 overflow-hidden">
@@ -91,7 +80,7 @@ export function SwaggerEditor({
         <CodeMirror
           value={value}
           theme="dark"
-          height={editorHeight}
+          height={'100%'}
           extensions={[...baseExtensions]}
           onChange={(newValue) => onChange(newValue)}
           className="h-full font-mono text-sm"
