@@ -1,12 +1,7 @@
+/** @type {import('postcss-load-config').Config} */
 const config = {
   plugins: {
-    "@tailwindcss/postcss": {
-      plugins: [
-        // eslint-disable-next-line @typescript-eslint/no-require-imports
-        require('daisyui')
-      ]
-    },
+    '@tailwindcss/postcss': {},
   },
 };
-
 export default config;

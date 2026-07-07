@@ -73,31 +73,51 @@ export function useSwaggerSchema(user: User | null) {
   }, []);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user) {
+      const resetSchema = () => {
+        setSchema('');
+        setErrors([]);
+        setFormat(getFormat(''));
+      };
+
+      resetSchema();
+      return;
+    }
+
+    let active = true;
 
     const loadSchema = async () => {
       setIsLoadingSchema(true);
       try {
         const ref = doc(db, 'schemas', user.uid);
         const snap = await getDoc(ref);
+        if (!active) return;
         if (snap.exists()) {
           const saved = snap.data().schema as string;
           setSchema(saved);
           const fmt = getFormat(saved);
           setFormat(fmt);
           const key = ++validationKey.current;
-          const isStale = () => validationKey.current !== key;
+          const isStale = () => validationKey.current !== key || !active;
           await validateAsync(saved, fmt, isStale, setErrors);
         }
       } catch {
-        // TODO: подключить toast или pop-up когда будет готов
-        setErrors([{ message: 'Failed to load saved schema' }]);
+        if (active) {
+          // TODO: подключить toast или pop-up когда будет готов
+          setErrors([{ message: 'Failed to load saved schema' }]);
+        }
       } finally {
-        setIsLoadingSchema(false);
+        if (active) {
+          setIsLoadingSchema(false);
+        }
       }
     };
 
     loadSchema();
+
+    return () => {
+      active = false;
+    };
   }, [user]);
 
   const validate = useCallback((text: string, fmt: 'json' | 'yaml', key: number) => {

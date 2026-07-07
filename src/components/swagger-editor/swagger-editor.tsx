@@ -30,7 +30,7 @@ export function SwaggerEditor({
   const baseExtensions = useMemo(() => [json(), yaml(), lintGutter()], []);
 
   return (
-    <div className="flex h-full min-h-0 w-full flex-1 flex-col gap-2 overflow-hidden">
+    <div className="flex h-full min-h-0 w-full flex-1 flex-col gap-2">
       {/* Format toggle */}
       <div className="flex shrink-0 items-center gap-1 self-end">
         <FormatButton type="json" currentFormat={format} onClick={onFormatChange} />
@@ -41,12 +41,16 @@ export function SwaggerEditor({
       {/* Editor */}
       <div
         ref={containerRef}
-        className="border-swagger-border min-h-0 flex-1 overflow-hidden rounded border bg-[#1e1e1e]"
+        className="border-swagger-border min-h-0 flex-1 rounded border bg-[#1e1e1e]"
       >
         <CodeMirror
           value={value}
           theme="dark"
-          height={'100%'}
+          height="100%"
+          style={{
+            maxHeight: '70vh',
+            overflow: 'auto',
+          }}
           extensions={baseExtensions}
           onChange={(newValue) => onChange(newValue)}
           className="h-full font-mono text-sm"

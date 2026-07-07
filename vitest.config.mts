@@ -5,10 +5,12 @@ export default defineConfig({
   resolve: { tsconfigPaths: true },
   plugins: [react()],
   test: {
+    css: false,
     environment: 'jsdom',
     globals: true,
     setupFiles: './src/setup-tests.tsx',
     coverage: {
+      reporter: 'text',
       provider: 'v8',
       include: ['src/**/*.{js,jsx,ts,tsx}'],
       exclude: [
@@ -18,7 +20,7 @@ export default defineConfig({
         'src/i18n/**/*',
         'src/**/*.d.ts',
         'src/middleware.ts',
-        'src/lib/firebase/admin.ts'
+        'src/lib/firebase/admin.ts',
       ],
       thresholds: {
         global: {
