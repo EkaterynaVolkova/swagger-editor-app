@@ -25,7 +25,10 @@ export function SwaggerPage() {
       {/* Split View */}
       <div className="flex min-h-0 w-full flex-1 flex-col landscape:flex-row">
         {/* Swagger Editor */}
-        <div className="bg-swagger-dark text-swagger-light-grey border-swagger-border flex min-h-0 min-w-0 flex-1 basis-1/2 flex-col border-b landscape:basis-1/2 landscape:border-r landscape:border-b-0">
+        <div
+          id="editor"
+          className="bg-swagger-dark text-swagger-light-grey border-swagger-border flex min-h-0 min-w-0 flex-1 basis-1/2 flex-col border-b landscape:basis-1/2 landscape:border-r landscape:border-b-0"
+        >
           <div className="flex min-h-0 flex-1 flex-col p-4">
             <div className="mb-2 flex shrink-0 items-center justify-between">
               <span className="text-[11px] font-semibold tracking-wider text-gray-400 uppercase">
@@ -58,7 +61,10 @@ export function SwaggerPage() {
         </div>
 
         {/* Swagger UI */}
-        <div className="text-neutral bg-swagger-dark flex min-h-0 min-w-0 flex-1 basis-1/2 flex-col landscape:basis-1/2">
+        <div
+          id="viewer"
+          className="text-neutral bg-swagger-dark flex min-h-0 min-w-0 flex-1 basis-1/2 flex-col landscape:basis-1/2"
+        >
           <div className="flex min-h-0 flex-1 flex-col p-4">
             <div className="mb-2 shrink-0">
               <span className="text-[11px] font-semibold tracking-wider text-gray-400 uppercase">

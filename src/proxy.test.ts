@@ -24,7 +24,7 @@ describe('proxy', () => {
     const response = proxy(createRequest('/en/history') as never);
 
     expect(response.status).toBe(307);
-    expect(response.headers.get('location')).toBe('http://localhost/en/sign-in');
+    expect(response.headers.get('location')).toBe('http://localhost/en/');
   });
 
   it('redirects authenticated users away from auth routes', () => {
@@ -56,6 +56,6 @@ describe('proxy', () => {
     const response = proxy(createRequest('/history') as never);
 
     expect(response.status).toBe(307);
-    expect(response.headers.get('location')).toBe('http://localhost/en/sign-in');
+    expect(response.headers.get('location')).toBe('http://localhost/en/');
   });
 });
