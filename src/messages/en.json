@@ -73,6 +73,9 @@
       },
       "yuri": {
         "role": "Frontend developer, authentication, routing and testing"
+      },
+      "andrei": {
+        "role": "Frontend developer, history tracking, general features implementation"
       }
     },
     "technologiesTitle": "Technologies used",
