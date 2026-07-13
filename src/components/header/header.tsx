@@ -5,13 +5,14 @@ import { ROUTES } from '@/constants/constants';
 import { Link } from '@/i18n/navigation';
 import { LanguageSwitcher } from '../language-switcher';
 import { MenuIcon } from '../icons';
+import { HeaderClient } from './header-client';
 
 export async function Header() {
   const user = await getUser();
   const t = await getTranslations('header');
 
   return (
-    <header className="bg-swagger-dark border-swagger-border sticky top-0 z-50 h-14 w-full border-b text-white shadow-md">
+    <HeaderClient>
       <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-4">
         <div className="flex items-center">
           <Link
@@ -98,6 +99,6 @@ export async function Header() {
           </div>
         </div>
       </div>
-    </header>
+    </HeaderClient>
   );
 }

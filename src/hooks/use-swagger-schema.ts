@@ -6,6 +6,7 @@ import SwaggerParser from '@apidevtools/swagger-parser';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase/client';
 import { User } from 'firebase/auth';
+import toast from 'react-hot-toast';
 
 export interface ValidationError {
   line?: number;
@@ -32,10 +33,14 @@ const validateAsync = async (
   text: string,
   format: 'json' | 'yaml',
   isStale: () => boolean,
-  setErrors: (errors: ValidationError[]) => void
+  setErrors: (errors: ValidationError[]) => void,
+  setValidSchema: (text: string) => void
 ) => {
   if (!text.trim()) {
-    if (!isStale()) setErrors([]);
+    if (!isStale()) {
+      setErrors([]);
+      setValidSchema('');
+    }
     return;
   }
 
@@ -43,22 +48,29 @@ const validateAsync = async (
   try {
     parsed = parseText(text, format);
   } catch (err) {
-    if (!isStale()) setErrors([getSyntaxError(err)]);
+    if (!isStale()) {
+      setErrors([getSyntaxError(err)]);
+    }
     return;
   }
 
   try {
     await SwaggerParser.validate(parsed as Parameters<typeof SwaggerParser.validate>[0]);
-    if (!isStale()) setErrors([]);
+    if (!isStale()) {
+      setErrors([]);
+      setValidSchema(text);
+    }
   } catch (err) {
     if (isStale()) return;
     const message = err instanceof Error ? err.message.split('\n')[0] : String(err);
     setErrors([{ message }]);
+    setValidSchema(text);
   }
 };
 
 export function useSwaggerSchema(user: User | null) {
   const [schema, setSchema] = useState('');
+  const [validSchema, setValidSchema] = useState('');
   const [errors, setErrors] = useState<ValidationError[]>([]);
   const [format, setFormat] = useState<'json' | 'yaml'>('yaml');
   const [isSaving, setIsSaving] = useState(false);
@@ -76,6 +88,7 @@ export function useSwaggerSchema(user: User | null) {
     if (!user) {
       const resetSchema = () => {
         setSchema('');
+        setValidSchema('');
         setErrors([]);
         setFormat(getFormat(''));
       };
@@ -95,16 +108,17 @@ export function useSwaggerSchema(user: User | null) {
         if (snap.exists()) {
           const saved = snap.data().schema as string;
           setSchema(saved);
+          setValidSchema(saved);
           const fmt = getFormat(saved);
           setFormat(fmt);
           const key = ++validationKey.current;
           const isStale = () => validationKey.current !== key || !active;
-          await validateAsync(saved, fmt, isStale, setErrors);
+          await validateAsync(saved, fmt, isStale, setErrors, setValidSchema);
         }
       } catch {
         if (active) {
-          // TODO: подключить toast или pop-up когда будет готов
-          setErrors([{ message: 'Failed to load saved schema' }]);
+          setErrors([{ message: 'Failed to load saved schema from the cloud.' }]);
+          toast.error('Failed to load your saved schema from the cloud.');
         }
       } finally {
         if (active) {
@@ -124,7 +138,7 @@ export function useSwaggerSchema(user: User | null) {
     if (debounceTimer.current) clearTimeout(debounceTimer.current);
     debounceTimer.current = setTimeout(() => {
       const isStale = () => validationKey.current !== key;
-      validateAsync(text, fmt, isStale, setErrors);
+      validateAsync(text, fmt, isStale, setErrors, setValidSchema);
     }, 350);
   }, []);
 
@@ -151,18 +165,19 @@ export function useSwaggerSchema(user: User | null) {
             : yaml.dump(JSON.parse(schema), { indent: 2 });
 
         setSchema(converted);
+        setValidSchema(converted);
         setFormat(nextFormat);
 
         const key = ++validationKey.current;
         const isStale = () => validationKey.current !== key;
-        validateAsync(converted, nextFormat, isStale, setErrors);
+        validateAsync(converted, nextFormat, isStale, setErrors, setValidSchema);
       } catch (err) {
         const message = err instanceof Error ? err.message : String(err);
-        // TODO: подключить toast или pop-up когда будет готов
         setErrors([{ message: `Conversion failed: ${message}` }]);
+        toast.error(`Conversion failed: ${message}`);
       }
     },
-    [schema, format, errors]
+    [schema, format, errors, validate]
   );
 
   const saveSchemaToFirebase = useCallback(async (): Promise<boolean> => {
@@ -171,10 +186,11 @@ export function useSwaggerSchema(user: User | null) {
     try {
       const ref = doc(db, 'schemas', user.uid);
       await setDoc(ref, { schema, updatedAt: new Date(), userId: user.uid });
+      toast.success('Schema successfully saved to cloud!');
       return true;
     } catch {
-      // TODO: подключить toast или pop-up когда будет готов
-      setErrors([{ message: 'Failed to save schema' }]);
+      setErrors([{ message: 'Failed to save schema.' }]);
+      toast.error('Failed to save schema.');
       return false;
     } finally {
       setIsSaving(false);
@@ -183,6 +199,7 @@ export function useSwaggerSchema(user: User | null) {
 
   return {
     schema,
+    validSchema,
     updateSchema,
     errors,
     isValid: errors.length === 0 && !!schema.trim(),
