@@ -11,6 +11,11 @@ const teamMembers = [
     roleKey: 'team.yuri.role',
     github: 'https://github.com/Sepulator',
   },
+  {
+    name: ' Andrei Tishchenko',
+    roleKey: 'team.andrei.role',
+    github: 'https://github.com/AndreyTishchenko',
+  },
 ];
 
 const technologies = [

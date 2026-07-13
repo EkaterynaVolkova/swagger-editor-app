@@ -59,7 +59,9 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
                     <span className="badge badge-success badge-outline font-mono">
                       {entry.method}
                     </span>
-                    <h2 className="truncate font-mono text-sm font-semibold">{entry.endpoint}</h2>
+                    <h2 className="max-w-[180px] truncate font-mono text-sm font-semibold sm:max-w-none">
+                      {entry.endpoint}
+                    </h2>
                   </div>
                   <span
                     className={

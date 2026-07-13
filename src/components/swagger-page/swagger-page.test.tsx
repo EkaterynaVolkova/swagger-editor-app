@@ -29,6 +29,10 @@ vi.mock('../swagger-editor', () => ({
   SwaggerEditor: () => <div>Mocked editor</div>,
 }));
 
+vi.mock('../swagger-viewer', () => ({
+  SwaggerViewer: () => <div data-testid="mock-viewer">Mocked Swagger UI Preview</div>,
+}));
+
 describe('SwaggerPage', () => {
   it('renders editor and preview panes with an enabled save button', async () => {
     authState.value = {
