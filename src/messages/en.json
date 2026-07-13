@@ -94,5 +94,28 @@
   },
   "editor": {
     "errorsTitle": "Errors"
+  },
+  "history": {
+    "eyebrow": "History & Analytics",
+    "title": "Request history",
+    "description": "Review your executed API requests and server-recorded performance metrics.",
+    "emptyTitle": "You haven't executed any requests yet",
+    "emptyDescription": "Run an API request from the viewer to start building your history.",
+    "editorLink": "Go to Editor",
+    "viewerLink": "Go to Viewer",
+    "duration": "{value} ms",
+    "responseSize": "{value} B response",
+    "analyticsTitle": "Request analytics",
+    "back": "Back to history",
+    "statusCode": "Response status code",
+    "durationLabel": "Request duration",
+    "timestamp": "Request timestamp",
+    "method": "Request method",
+    "requestSize": "Request size",
+    "responseSizeLabel": "Response size",
+    "endpoint": "Endpoint / URL",
+    "errorDetails": "Error details",
+    "bytes": "{value} bytes",
+    "none": "None"
   }
 }

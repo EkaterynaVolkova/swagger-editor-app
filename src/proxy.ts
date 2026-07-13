@@ -20,7 +20,7 @@ export function proxy(request: NextRequest) {
   const isAuthRoute = AUTH_ROUTES.some((r) => cleanPath.startsWith(r));
 
   if (isProtected && !session) {
-    return NextResponse.redirect(new URL(`/${locale}${ROUTES.SIGN_IN}`, request.url));
+    return NextResponse.redirect(new URL(`/${locale}${ROUTES.HOME}`, request.url));
   }
 
   if (isAuthRoute && session) {

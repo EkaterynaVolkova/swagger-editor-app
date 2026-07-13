@@ -94,5 +94,28 @@
   },
   "editor": {
     "errorsTitle": "Ошибки"
+  },
+  "history": {
+    "eyebrow": "История и аналитика",
+    "title": "История запросов",
+    "description": "Просматривайте выполненные API-запросы и метрики производительности, записанные сервером.",
+    "emptyTitle": "Вы еще не выполнили ни одного запроса",
+    "emptyDescription": "Выполните API-запрос в просмотрщике, чтобы начать собирать историю.",
+    "editorLink": "Перейти в редактор",
+    "viewerLink": "Перейти в просмотрщик",
+    "duration": "{value} мс",
+    "responseSize": "Ответ: {value} Б",
+    "analyticsTitle": "Аналитика запроса",
+    "back": "Назад к истории",
+    "statusCode": "Код статуса ответа",
+    "durationLabel": "Длительность запроса",
+    "timestamp": "Время запроса",
+    "method": "Метод запроса",
+    "requestSize": "Размер запроса",
+    "responseSizeLabel": "Размер ответа",
+    "endpoint": "Эндпоинт / URL",
+    "errorDetails": "Сведения об ошибке",
+    "bytes": "{value} байт",
+    "none": "Нет"
   }
 }
