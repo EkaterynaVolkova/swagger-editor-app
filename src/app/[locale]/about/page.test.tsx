@@ -45,7 +45,7 @@ describe('AboutPage', () => {
     expect(team.getByText(messages.about.team.yuri.role)).toBeInTheDocument();
 
     const githubLinks = team.getAllByRole('link', { name: 'GitHub profile' });
-    expect(githubLinks).toHaveLength(2);
+    expect(githubLinks).toHaveLength(3);
     expect(githubLinks[0]).toHaveAttribute('href', 'https://github.com/EkaterynaVolkova');
     expect(githubLinks[1]).toHaveAttribute('href', 'https://github.com/Sepulator');
     githubLinks.forEach((link) => {
