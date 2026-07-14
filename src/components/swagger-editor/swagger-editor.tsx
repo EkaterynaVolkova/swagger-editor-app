@@ -1,0 +1,90 @@
+'use client';
+
+import { ValidationError } from '@/hooks/use-swagger-schema';
+import CodeMirror from '@uiw/react-codemirror';
+import { json } from '@codemirror/lang-json';
+import { yaml } from '@codemirror/lang-yaml';
+import { lintGutter } from '@codemirror/lint';
+import { useMemo, useRef } from 'react';
+import { useTranslations } from 'next-intl';
+import { XCircleIcon } from '../icons';
+import { FormatButton } from './format-button';
+
+interface SwaggerEditorProps {
+  value: string;
+  format: 'json' | 'yaml';
+  onFormatChange: (format: 'json' | 'yaml') => void;
+  onChange: (value: string) => void;
+  errors?: ValidationError[];
+}
+
+export function SwaggerEditor({
+  value,
+  format,
+  onFormatChange,
+  onChange,
+  errors,
+}: SwaggerEditorProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const t = useTranslations('editor');
+  const baseExtensions = useMemo(() => [json(), yaml(), lintGutter()], []);
+
+  return (
+    <div className="flex h-full min-h-0 w-full flex-1 flex-col gap-2">
+      {/* Format toggle */}
+      <div className="flex shrink-0 items-center gap-1 self-end">
+        <FormatButton type="json" currentFormat={format} onClick={onFormatChange} />
+        <span className="text-gray-600">/</span>
+        <FormatButton type="yaml" currentFormat={format} onClick={onFormatChange} />
+      </div>
+
+      {/* Editor */}
+      <div
+        ref={containerRef}
+        className="border-swagger-border min-h-0 flex-1 rounded border bg-[#1e1e1e]"
+      >
+        <CodeMirror
+          value={value}
+          theme="dark"
+          height="100%"
+          style={{
+            maxHeight: '70vh',
+            overflow: 'auto',
+          }}
+          extensions={baseExtensions}
+          onChange={(newValue) => onChange(newValue)}
+          className="h-full font-mono text-sm"
+          basicSetup={{
+            lineNumbers: true,
+            foldGutter: true,
+            highlightActiveLine: true,
+          }}
+        />
+      </div>
+
+      {/* Errors */}
+      {errors && errors.length > 0 && (
+        <div className="max-h-40 shrink-0 overflow-y-auto rounded border border-red-800 bg-red-950/30 p-3 font-mono text-xs">
+          <div className="mb-2 flex items-center gap-2 text-red-400">
+            <XCircleIcon />
+            <span className="font-semibold">
+              {t('errorsTitle')} ({errors.length})
+            </span>
+          </div>
+          <div className="space-y-1">
+            {errors.map((err, i) => (
+              <div key={i} className="flex items-start gap-2 py-0.5">
+                {err.line != null && (
+                  <span className="badge badge-error badge-xs shrink-0 text-[10px] leading-none">
+                    Ln {err.line}
+                  </span>
+                )}
+                <span className="text-red-200">{err.message}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

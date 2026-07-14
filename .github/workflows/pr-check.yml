@@ -1,0 +1,61 @@
+name: PR Review Check
+
+on:
+  pull_request:
+    branches: [main, develop]
+  pull_request_review:
+    types: [submitted, dismissed]
+
+jobs:
+  check-approvals:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    steps:
+      - name: Check for team approval
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prNumber =
+              context.payload.pull_request?.number ??
+              context.payload.review?.pull_request?.number;
+
+            if (!prNumber) {
+              core.setFailed('Could not determine the Pull Request number.');
+              return;
+            }
+
+            const { data: pr } = await github.rest.pullRequests.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber,
+            });
+
+            const prAuthor = pr.user.login;
+            
+            const { data: reviews } = await github.rest.pullRequests.listReviews({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber,
+            });
+
+            const latestReviewsMap = new Map();
+            for (const review of reviews) {
+              if (review.user.login === prAuthor) continue;
+              
+              if (review.state === 'APPROVED' || review.state === 'CHANGES_REQUESTED') {
+                latestReviewsMap.set(review.user.login, review.state);
+              }
+            }
+
+            const reviewStates = Array.from(latestReviewsMap.values());
+            const hasApproval = reviewStates.includes('APPROVED');
+            const hasChangesRequested = reviewStates.includes('CHANGES_REQUESTED');
+
+            if (hasChangesRequested) {
+              core.setFailed('PR has changes requested by a reviewer.');
+            } else if (!hasApproval) {
+              core.setFailed('PR cannot be merged until at least one team member approves.');
+            } else {
+              core.info('Valid team approval received.');
+            }

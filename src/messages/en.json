@@ -1,0 +1,124 @@
+{
+  "common": {
+    "title": "Swagger Editor App"
+  },
+  "FormsLayout": {
+    "SignIn": {
+      "form": "Sign up",
+      "title": "Welcome back",
+      "sub-title": "Sign in to your account",
+      "account": "Don’t have an account? "
+    },
+    "SignUp": {
+      "form": "Sign in",
+      "title": "Get started",
+      "sub-title": "Create a new account",
+      "account": "Already have an account? "
+    }
+  },
+  "Forms": {
+    "username": "Username",
+    "username_placeholder": "Type username",
+    "email": "Email",
+    "password": "Password",
+    "confirm_password": "Confirm password",
+    "sign_up": "Sign up",
+    "sign_in": "Sign in"
+  },
+  "Validation": {
+    "required_email": "Email is required",
+    "required_username": "Username is required",
+    "invalid_email": "Must be a valid email",
+    "required_password": "Password is required",
+    "min_length": "Password must be at least {length} characters",
+    "max_length": "The username must not be longer than {length} characters",
+    "one_number": "Password must contain at least one number",
+    "one_letter": "Password must contain at least one letter",
+    "one_special": "Password must contain at least one special character",
+    "not_matched": "The passwords don't match",
+    "email_already_in_use": "The email address is already in use by another account.",
+    "invalid_credentials": "Wrong password or invalid account.",
+    "too_many_requests": "Too many attempts, try later.",
+    "unknown_error": "Unknown error."
+  },
+  "header": {
+    "about": "About Us",
+    "history": "History",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "signOut": "Sign Out"
+  },
+  "footer": {
+    "allRightsReserved": "All rights reserved.",
+    "aboutLink": "About Us"
+  },
+  "about": {
+    "eyebrow": "About the project",
+    "title": "Swagger Editor App",
+    "description": "Swagger Editor App is a learning project created as part of the RS School React course. It helps users edit, validate, preview and save OpenAPI schemas in a focused workspace with authentication, localization and a responsive split-view interface.",
+    "courseTitle": "RS School course",
+    "courseDescription": "RS School is a free, community-driven education program from The Rolling Scopes community. The React course focuses on modern frontend engineering practices: component architecture, routing, state management, testing, authentication, API integration and production-ready user interfaces.",
+    "scopeTitle": "Project scope",
+    "scope": {
+      "editor": "OpenAPI schema editing with JSON and YAML support.",
+      "preview": "Live Swagger UI preview for quick feedback.",
+      "history": "Firebase-backed sign in, sign up and schema history.",
+      "i18n": "Internationalized navigation for English and Russian routes."
+    },
+    "teamTitle": "Development team",
+    "team": {
+      "github": "GitHub profile",
+      "ekaterina": {
+        "role": "Frontend developer, project setup and Swagger editor experience"
+      },
+      "yuri": {
+        "role": "Frontend developer, authentication, routing and testing"
+      },
+      "andrei": {
+        "role": "Frontend developer, history tracking, general features implementation"
+      }
+    },
+    "technologiesTitle": "Technologies used",
+    "resourcesTitle": "Useful resources",
+    "resources": {
+      "rsSchool": "RS School",
+      "rsSchoolReact": "RS School React course",
+      "repository": "Project repository",
+      "openapi": "OpenAPI Specification"
+    }
+  },
+  "swaggerPage": {
+    "editorTitle": "Editor",
+    "viewerTitle": "Swagger UI Preview",
+    "saveButton": "Save Schema"
+  },
+  "SwaggerViewer": {
+    "idle": "❌ Waiting for a valid OpenAPI schema to populate endpoints..."
+  },
+  "editor": {
+    "errorsTitle": "Errors"
+  },
+  "history": {
+    "eyebrow": "History & Analytics",
+    "title": "Request history",
+    "description": "Review your executed API requests and server-recorded performance metrics.",
+    "emptyTitle": "You haven't executed any requests yet",
+    "emptyDescription": "Run an API request from the viewer to start building your history.",
+    "editorLink": "Go to Editor",
+    "viewerLink": "Go to Viewer",
+    "duration": "{value} ms",
+    "responseSize": "{value} B response",
+    "analyticsTitle": "Request analytics",
+    "back": "Back to history",
+    "statusCode": "Response status code",
+    "durationLabel": "Request duration",
+    "timestamp": "Request timestamp",
+    "method": "Request method",
+    "requestSize": "Request size",
+    "responseSizeLabel": "Response size",
+    "endpoint": "Endpoint / URL",
+    "errorDetails": "Error details",
+    "bytes": "{value} bytes",
+    "none": "None"
+  }
+}

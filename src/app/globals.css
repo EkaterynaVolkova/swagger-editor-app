@@ -1,0 +1,16 @@
+@layer scalar-base, scalar-theme, scalar-config, theme, base, components, utilities;
+@import 'tailwindcss';
+@plugin 'daisyui';
+
+@theme {
+  --font-sans: var(--font-inter);
+  --color-swagger-dark: #1b1b1b;
+  --color-swagger-gray: #252525;
+  --color-swagger-border: #2d2d2d;
+  --color-swagger-light-grey: #e0e0e0;
+  --color-swagger-green: #85ea2d;
+  --color-swagger-green-hover: #72ca24;
+  --color-swagger-blue: #1a56c5;
+  --color-swagger-blue-hover: #1344a0;
+  --color-swagger-red: #ef4444;
+}
