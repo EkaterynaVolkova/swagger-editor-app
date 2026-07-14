@@ -11,6 +11,7 @@ export function SwaggerPage() {
   const { user, isAuthenticated, loading } = useAuth();
   const {
     schema,
+    validSchema,
     updateSchema,
     errors,
     isValid,
@@ -73,7 +74,7 @@ export function SwaggerPage() {
             </div>
 
             <div className="flex-1 text-sm">
-              <SwaggerViewer errors={errors} schema={schema} />
+              <SwaggerViewer errors={errors} schema={validSchema} />
             </div>
           </div>
         </div>

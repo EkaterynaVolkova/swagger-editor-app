@@ -2,6 +2,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { locales, type Locale } from '@/i18n/config';
+import { Toaster } from 'react-hot-toast';
 import '@/app/globals.css';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
@@ -44,6 +45,13 @@ export default async function LocaleLayout({ children, params }: Props) {
         className={`${inter.className} bg-base-200 text-base-content flex min-h-full flex-col font-sans antialiased`}
       >
         <NextIntlClientProvider messages={messages}>
+          <Toaster
+            position="top-center"
+            toastOptions={{
+              className: '!bg-swagger-dark !text-white !border !border-swagger-border',
+              duration: 4000,
+            }}
+          />
           <Header />
           <main className="flex min-h-0 w-full flex-1 flex-col items-center">{children}</main>
           <Footer />

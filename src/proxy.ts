@@ -20,7 +20,27 @@ export function proxy(request: NextRequest) {
   const isAuthRoute = AUTH_ROUTES.some((r) => cleanPath.startsWith(r));
 
   if (isProtected && !session) {
-    return NextResponse.redirect(new URL(`/${locale}${ROUTES.HOME}`, request.url));
+    const redirectUrl = new URL(`/${locale}${ROUTES.HOME}`, request.url);
+
+    return new NextResponse(
+      `<!DOCTYPE html>
+        <html>
+          <head>
+            <meta http-equiv="refresh" content="0;url=${redirectUrl.toString()}" />
+          </head>
+          <body>
+            <script>window.location.replace(${JSON.stringify(redirectUrl.toString())});</script>
+          </body>
+        </html>`,
+      {
+        status: 401,
+        statusText: 'Unauthorized',
+        headers: {
+          'Content-Type': 'text/html',
+          Location: redirectUrl.toString(),
+        },
+      }
+    );
   }
 
   if (isAuthRoute && session) {

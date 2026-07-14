@@ -2,6 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
 import { FirebaseError } from 'firebase/app';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { valibotResolver } from '@hookform/resolvers/valibot';
@@ -38,11 +39,11 @@ export function SignIn() {
     } catch (error) {
       if (error instanceof FirebaseError) {
         handleFirebaseError(error, setError);
+        toast.error(error.message);
       } else {
-        setError('root', {
-          type: 'manual',
-          message: error instanceof Error ? error.message : 'unknown_error',
-        });
+        const message = error instanceof Error ? error.message : 'unknown_error';
+        setError('root', { type: 'manual', message });
+        toast.error(message);
       }
     }
   };
